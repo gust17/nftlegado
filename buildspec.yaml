@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Instalando dependencias e renomenado docker-compose
+      - rm -f docker-compose.yml
+      - mv docker-compose-producao.yml docker-compose.yml
+      - cd ./src && composer install
+  build:
+    commands:
+      - echo Build iniciado em `date`
+      - cd ..
+      - ls
+      - docker build -f ./docker/Dockerfile --tag nft .
+      - docker save --output nft.tar nft
+      - ls
+      - cd ..
+  post_build:
+    commands:
+      - docker images
+      - echo Build finalizado em `date`
+artifacts:
+  files:
+    - ./**/*

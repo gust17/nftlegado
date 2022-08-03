@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: 
+Disallow: /cgi-bin/
+Disallow: /vendor/
+Disallow: /system/
+Sitemap: https://solutionintech.com.br/mmn2022/sitemap.xml

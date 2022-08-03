@@ -1,0 +1,58 @@
+function initMaskMoney(){
+    if(typeof $("[data-plugin='moneymask']")[0] != 'undefined'){
+        $("[data-plugin='moneymask']").maskMoney({allowNegative: true, thousands:'', decimal:'.', affixesStay: false});
+    }
+}
+
+function createNotification(title, message, icon, type) {
+    
+    $.notify({
+        icon: icon,
+        title: title,
+        message: message,
+        url: ''
+    }, {
+        element: 'body',
+        type: type,
+        allow_dismiss: true,
+        placement: {
+            from: 'top',
+            align: 'right'
+        },
+        offset: {
+            x: 30,
+            y: 30
+        },
+        spacing: 10,
+        z_index: 999999,
+        delay: 2500,
+        timer: 1000,
+        url_target: '_blank',
+        mouse_over: false,
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        },
+        icon_type: 'class',
+            template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                        '<span data-notify="icon"><i class="fa fa-'+icon+'"></i></span> ' +
+                        '<span data-notify="title"><strong>{1}</strong></span> <br /> ' +
+                        '<span data-notify="message">{2}</span>' +
+                        '<div class="progress" data-notify="progressbar">' +
+                            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                        '</div>' +
+                        '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                    '</div>'
+    });
+};
+
+$(document).on('click', 'button[load-button="on"]', function(e){
+    
+    let label  = '<i class="fa fa-pulse fa-spinner"></i> ';
+        label +=  $(this).attr('load-text');
+
+    $(this).html(label);
+    $(this).addClass('disabled');
+    $(this).attr('onclick', 'event.preventDefault()');
+});

@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  app-nft:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+    - ./src/.env
+    ports:
+      - 80:80
+    working_dir: /app
+    volumes:
+      - ./src:/app
+    depends_on:
+      - db
+      - redis
+      - phpmyadmin
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db/mysql/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nft
+      MYSQL_USER: nft
+      MYSQL_PASSWORD: nft
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - db
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+  
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./db/redis/:/data
